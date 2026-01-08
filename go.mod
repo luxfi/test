@@ -5,8 +5,8 @@ go 1.25.5
 
 require (
 	github.com/luxfi/cache v1.1.1
-	github.com/luxfi/concurrent v0.0.0
-	github.com/luxfi/container v0.0.0
+	github.com/luxfi/concurrent v0.0.1
+	github.com/luxfi/container v0.0.1
 	github.com/luxfi/metric v1.4.9
 )
 
