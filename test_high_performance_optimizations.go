@@ -16,7 +16,7 @@ func main() {
 	fmt.Println("Testing high-performance optimizations...")
 
 	// Create a metrics registry
-	registry := metric.NewMetricsRegistry()
+	registry := metric.NewRegistry()
 
 	// Test DualMapCache
 	fmt.Println("\n1. Testing DualMapCache...")
@@ -41,7 +41,7 @@ func main() {
 	fmt.Println("\nAll tests completed successfully!")
 }
 
-func testDualMapCache(reg *metric.MetricsRegistry) {
+func testDualMapCache(reg metric.Registry) {
 	dualCache := cache.NewDualMapCache[string, string](reg)
 
 	// Put some values
@@ -61,7 +61,7 @@ func testDualMapCache(reg *metric.MetricsRegistry) {
 	fmt.Println("  Migration completed")
 }
 
-func testConcurrencyLimiter(reg *metric.MetricsRegistry) {
+func testConcurrencyLimiter(reg metric.Registry) {
 	limiter := concurrent.NewConcurrencyLimiter(3, "test_limiter", reg)
 
 	// Test acquiring and releasing
@@ -82,7 +82,7 @@ func testConcurrencyLimiter(reg *metric.MetricsRegistry) {
 	}
 }
 
-func testOrderedMap(reg *metric.MetricsRegistry) {
+func testOrderedMap(reg metric.Registry) {
 	omap := container.NewOrderedMap[string, string](reg)
 
 	// Add items
@@ -112,7 +112,7 @@ func testOrderedMap(reg *metric.MetricsRegistry) {
 	fmt.Printf("  Keys: %v, Values: %v\n", keys, values)
 }
 
-func testStringInterner(reg *metric.MetricsRegistry) {
+func testStringInterner(reg metric.Registry) {
 	interner := cache.NewStringInterner(reg)
 
 	// Intern some strings
@@ -130,13 +130,13 @@ func testStringInterner(reg *metric.MetricsRegistry) {
 	fmt.Printf("  Interned '%s' and '%s'\n", str1, str3)
 }
 
-func printMetrics(reg *metric.MetricsRegistry) {
+func printMetrics(reg metric.Registry) {
 	// Just show that metrics are registered by printing their existence
 	fmt.Println("  Metrics registry initialized with counters and gauges")
-	
+
 	// Show some stats about goroutines as a basic health check
 	fmt.Printf("  Current goroutines: %d\n", runtime.NumGoroutine())
-	
+
 	// Sleep briefly to allow any background operations to complete
 	time.Sleep(10 * time.Millisecond)
 }
