@@ -1,6 +1,6 @@
 module test
 
-go 1.26.1
+go 1.26.3
 
 require (
 	github.com/luxfi/cache v1.1.1
