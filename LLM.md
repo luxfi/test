@@ -1,4 +1,4 @@
-# LLM.md - Hanzo Test_Module
+# Hanzo Test_Module
 
 ## Overview
 Go module: test
