@@ -8,7 +8,6 @@ import (
 
 	"github.com/luxfi/cache"
 	"github.com/luxfi/concurrent"
-	"github.com/luxfi/container"
 	"github.com/luxfi/metric"
 )
 
@@ -26,16 +25,8 @@ func main() {
 	fmt.Println("\n2. Testing ConcurrencyLimiter...")
 	testConcurrencyLimiter(registry)
 
-	// Test OrderedMap with metrics
-	fmt.Println("\n3. Testing OrderedMap with metrics...")
-	testOrderedMap(registry)
-
-	// Test StringInterner
-	fmt.Println("\n4. Testing StringInterner...")
-	testStringInterner(registry)
-
 	// Print some metrics
-	fmt.Println("\n5. Metrics Summary:")
+	fmt.Println("\n3. Metrics Summary:")
 	printMetrics(registry)
 
 	fmt.Println("\nAll tests completed successfully!")
@@ -80,54 +71,6 @@ func testConcurrencyLimiter(reg metric.Registry) {
 	} else {
 		fmt.Println("  TryAcquire failed")
 	}
-}
-
-func testOrderedMap(reg metric.Registry) {
-	omap := container.NewOrderedMap[string, string](reg)
-
-	// Add items
-	omap.Put("first", "1st")
-	omap.Put("second", "2nd")
-	omap.Put("third", "3rd")
-
-	// Check size
-	fmt.Printf("  Size: %d\n", omap.Size())
-
-	// Get items
-	if val, ok := omap.Get("first"); ok {
-		fmt.Printf("  First value: %s\n", val)
-	}
-
-	// Iterate
-	fmt.Print("  Iteration: ")
-	omap.Iterate(func(key, value string) bool {
-		fmt.Printf("%s=%s ", key, value)
-		return true
-	})
-	fmt.Println()
-
-	// Get keys and values
-	keys := omap.Keys()
-	values := omap.Values()
-	fmt.Printf("  Keys: %v, Values: %v\n", keys, values)
-}
-
-func testStringInterner(reg metric.Registry) {
-	interner := cache.NewStringInterner(reg)
-
-	// Intern some strings
-	str1 := interner.Intern("hello world")
-	str2 := interner.Intern("hello world") // Should return same pointer
-	str3 := interner.Intern("foo bar")
-
-	// Check if they're the same by comparing values (since we can't compare string addresses directly)
-	if str1 == str2 {
-		fmt.Println("  String interning works correctly")
-	} else {
-		fmt.Println("  String interning failed")
-	}
-
-	fmt.Printf("  Interned '%s' and '%s'\n", str1, str3)
 }
 
 func printMetrics(reg metric.Registry) {
