@@ -56,7 +56,7 @@ func testConcurrencyLimiter(reg metric.Registry) {
 	limiter := concurrent.NewConcurrencyLimiter(3, "test_limiter", reg)
 
 	// Test acquiring and releasing
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		if err := limiter.Acquire(nil); err != nil {
 			log.Fatalf("Failed to acquire: %v", err)
 		}
